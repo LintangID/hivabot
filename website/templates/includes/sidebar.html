@@ -1,0 +1,58 @@
+<!-- Sidebar -->
+<div class="sidebar-wrapper scrollbar scrollbar-inner">
+  <div class="sidebar-content">
+    <ul class="nav nav-primary">
+      <li class="nav-item {% if current_page == 'dashboard' %}active{% endif %}">
+        <a href="{{ url_for('views.dashboard') }}" class="collapsed" aria-expanded="false">
+          <i class="fas fa-home"></i>
+          <p>Dashboard</p>
+        </a>
+      </li>
+      <li class="nav-section">
+        <span class="sidebar-mini-icon">
+          <i class="fa fa-ellipsis-h"></i>
+        </span>
+        <h4 class="text-section">Menu</h4>
+      </li>
+      <li class="nav-item {% if current_page == 'gejala' or current_page == 'rule' or current_page == 'user' %}active{% endif %}">
+        <a data-toggle="collapse" href="#sidebarLayouts">
+          <i class="fas fa-th-list"></i>
+          <p>Manajemen</p>
+          <span class="caret"></span>
+        </a>
+        <div class="collapse" id="sidebarLayouts">
+          <ul class="nav nav-collapse">
+            <li class="{% if current_page == 'user' %}active{% endif %}">
+              <a href="{{ url_for('views.user') }}">
+                <span class="sub-item">User</span>
+              </a>
+            </li>
+            <li class="{% if current_page == 'gejala' %}active{% endif %}">
+              <a href="{{ url_for('views.gejala') }}">
+                <span class="sub-item">Gejala</span>
+              </a>
+            </li>
+            <li class="{% if current_page == 'rule' %}active{% endif %}">
+              <a href="{{ url_for('views.rule') }}">
+                <span class="sub-item">Basis Pengetahuan</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item {% if current_page == 'riwayat' %}active{% endif %}">
+        <a href="{{ url_for('views.riwayat') }}">
+          <i class="fas fa-clipboard-list"></i>
+          <p>Riwayat Diagnosa</p>
+        </a>
+      </li>
+      <li class="nav-item {% if current_page == 'user-telegram' %}active{% endif %}">
+        <a href="{{ url_for('views.user_telegram') }}">
+          <i class="fas fa-user"></i>
+          <p>User Telegram</p>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- End Sidebar -->

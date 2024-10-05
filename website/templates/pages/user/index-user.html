@@ -1,0 +1,225 @@
+{% extends 'layouts/main.html' %}
+
+<!-- tittle -->
+{% block title %} User {% endblock %}
+
+<!-- content -->
+{%block container %}
+<div class="content">
+  <div class="page-inner">
+    <div class="page-header">
+      <h4 class="page-title">User</h4>
+      <ul class="breadcrumbs">
+        <li class="nav-home">
+          <a href="{{ url_for('views.dashboard') }}">
+            <i class="flaticon-home"></i>
+          </a>
+        </li>
+        <li class="separator">
+          <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+          <a href="#">Manajemen</a>
+        </li>
+        <li class="separator">
+          <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+          <a href="#">User</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="d-flex align-items-center">
+              <h4 class="card-title">Data Pengguna</h4>
+              <button class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">
+                <i class="fa fa-plus"></i>
+                Tambah Data
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Add Modal -->
+            <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <form action="{{ url_for('views.user') }}" method="POST">
+                  <div class="modal-content">
+                    <div class="modal-header no-bd">
+                      <h5 class="modal-title">
+                        <span class="fw-mediumbold"> Tambah</span>
+                        <span class="fw-light"> Pengguna </span>
+                      </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group form-floating-label">
+                            <label for="addUsername">Username</label>
+                            <input id="addUsername" name="username" type="text" class="form-control" placeholder="username" />
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group form-floating-label">
+                            <label for="addFullname">Nama Lengkap</label>
+                            <input id="addFullname" name="fullname" type="text" class="form-control" placeholder="nama lengkap" />
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group form-floating-label">
+                            <label for="addPassword">Password</label>
+                            <input id="addPassword" type="password" name="password" class="form-control" placeholder="Password" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer no-bd">
+                      <button type="submit" id="addRowButton" class="btn btn-success">Tambah</button>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <form id="formEdit" action="" method="POST">
+                  <div class="modal-content">
+                    <div class="modal-header no-bd">
+                      <h5 class="modal-title">
+                        <span class="fw-mediumbold"> Edit</span>
+                        <span class="fw-light"> Data </span>
+                      </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group form-floating-label">
+                            <label for="editUsername">Username</label>
+                            <input id="editUsername" name="username" type="text" class="form-control" placeholder="username" />
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group form-floating-label">
+                            <label for="addFullname">Nama Lengkap</label>
+                            <input id="addFullname" name="fullname" type="text" class="form-control" placeholder="nama lengkap" />
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group form-floating-label">
+                            <label for="editPassword">Password</label>
+                            <input id="editPassword" type="password" name="password" class="form-control" placeholder="Password" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer no-bd">
+                      <button type="submit" id="editRowButton" class="btn btn-success">Simpan</button>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table id="add-row" class="display table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Nama Lengkap</th>
+                    <th style="width: 5%">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for user in users %}
+                  <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.fullname }}</td>
+                    <td>
+                      <div class="form-button-action">
+                        <button id="editModalButton" type="button" data-toggle="modal" data-id="{{ user.id }}" data-target="#editRowModal" class="btn btn-link btn-primary btn-lg" data-original-title="Ubah Data">
+                          <i class="fa fa-edit"></i>
+                        </button>
+
+                        <form action="{{ url_for ('views.delete_user', id = user.id) }}" method="POST" class="d-inline">
+                          <button data-toggle="tooltip" class="btn btn-link btn-danger delete-btn" data-original-title="Hapus">
+                            <i class="fa fa-times"> </i>
+                          </button>
+                        </form>
+                        <!-- <button id="delete-btn" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Hapus" data-id="{{ user.id }}">
+                          <i class="fa fa-times"> </i>
+                        </button> -->
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script>
+  $(document).on('click', '#editModalButton', function () {
+    var form = document.getElementById('formEdit');
+    var id = this.getAttribute('data-id');
+    var url = '/edit-user/' + id;
+    form.action = url;
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    // Add Row
+    $('#add-row').DataTable({
+      pageLength: 5,
+      ordering: false,
+    });
+    $('#addRowButton').click(function () {
+      $('#addRowModal').modal('hide');
+    });
+  });
+
+  $(document).on(function () {
+    // Edit Row
+    $('#editRowButton').click(function () {
+      $('#editRowModal').modal('hide');
+    });
+  });
+
+  $(document).on('click', '.delete-btn', function (e) {
+    e.preventDefault();
+
+    var form = $(this).closest('form');
+    Swal.fire({
+      title: 'Apakah kamu yakin?',
+      text: 'Data yang sudah dihapus tidak bisa dikembalikan!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Oke',
+      cancelButtonText: 'Batal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        form.submit();
+      }
+    });
+  });
+</script>
+{% endblock %}

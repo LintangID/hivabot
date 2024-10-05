@@ -1,0 +1,56 @@
+{% extends 'layouts/auth.html' %}
+
+<!-- title -->
+{% block title %} Signup {% endblock %}
+
+<!-- content -->
+{%block container %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Signup</div>
+      </div>
+      <form method="POST" action="{{ url_for('auth.signup') }}">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 col-lg-12">
+              <div class="form-group">
+                <div class="input-icon">
+                  <span class="input-icon-addon">
+                    <i class="fa fa-user"></i>
+                  </span>
+                  <input type="text" name="username" class="form-control" placeholder="Username" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-12">
+              <div class="form-group">
+                <div class="input-icon">
+                  <span class="input-icon-addon">
+                    <i class="fa fa-user"></i>
+                  </span>
+                  <input type="text" name="fullname" class="form-control" placeholder="Nama Lengkap" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-12">
+              <div class="form-group">
+                <div class="input-icon">
+                  <span class="input-icon-addon">
+                    <i class="fa fa-key"></i>
+                  </span>
+                  <input type="password" name="password" class="form-control" placeholder="Password" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-action">
+          <button class="btn btn-success">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

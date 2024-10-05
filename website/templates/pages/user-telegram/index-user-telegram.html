@@ -1,0 +1,102 @@
+{% extends 'layouts/main.html' %}
+
+<!-- tittle -->
+{% block title %} User Telegram {% endblock %}
+
+<!-- content -->
+{%block container %}
+<div class="content">
+  <div class="page-inner">
+    <div class="page-header">
+      <h4 class="page-title">User Telegram</h4>
+      <ul class="breadcrumbs">
+        <li class="nav-home">
+          <a href="{{ url_for('views.dashboard') }}">
+            <i class="flaticon-home"></i>
+          </a>
+        </li>
+        <li class="separator">
+          <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+          <a href="#">User Telegram</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="d-flex align-items-center">
+              <h4 class="card-title">Data User Telegram</h4>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="add-row" class="display table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>ID Telegram</th>
+                    <th>Nama</th>
+                    <th>No. HP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in items %}
+                  <tr>
+                    <td>{{ item.id_user_telegram }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.phone_number }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}{% block script %}
+<script>
+  $(document).ready(function () {
+    // Add Row
+    $('#add-row').DataTable({
+      pageLength: 5,
+      ordering: false,
+    });
+    $('#addRowButton').click(function () {
+      $('#addRowModal').modal('hide');
+    });
+  });
+
+  $(document).on(function () {
+    // Edit Row
+    $('#editRowButton').click(function () {
+      $('#editRowModal').modal('hide');
+    });
+  });
+
+  $(document).on('click', '.delete-btn', function (e) {
+    e.preventDefault();
+
+    var form = $(this).closest('form');
+    Swal.fire({
+      title: 'Apakah kamu yakin?',
+      text: 'Data yang sudah dihapus tidak bisa dikembalikan!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Oke',
+      cancelButtonText: 'Batal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        form.submit();
+      }
+    });
+  });
+</script>
+{% endblock %}

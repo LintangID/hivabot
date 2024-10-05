@@ -1,0 +1,138 @@
+{% extends 'layouts/main.html' %}
+
+<!-- tittle -->
+{% block title %} Dashboard {% endblock %}
+
+<!-- content -->
+{%block container %}
+<div class="row" style="margin-top: 5px; margin-left: auto">
+  <div class="col-sm-6 col-md-3">
+    <div class="card card-stats card-round">
+      <div class="card-body" style="cursor: pointer" onclick="redirectTo('/user-telegram')">
+        <div class="row align-items-center">
+          <div class="col-icon">
+            <div class="icon-big text-center icon-primary bubble-shadow-small">
+              <i class="flaticon-users"></i>
+            </div>
+          </div>
+          <div class="col col-stats ml-3 ml-sm-0">
+            <div class="numbers">
+              <p class="card-category">User Telegram</p>
+              <h4 class="card-title">{{ jml_user_telegram }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="card card-stats card-round">
+      <div class="card-body" style="cursor: pointer" onclick="redirectTo('/riwayat')">
+        <div class="row align-items-center">
+          <div class="col-icon">
+            <div class="icon-big text-center icon-info bubble-shadow-small">
+              <i class="flaticon-interface-6"></i>
+            </div>
+          </div>
+          <div class="col col-stats ml-3 ml-sm-0">
+            <div class="numbers">
+              <p class="card-category">Riwayat Diagnosa</p>
+              <h4 class="card-title">{{ jml_riwayat }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-md-3">
+    <div class="card card-stats card-round">
+      <div class="card-body" style="cursor: pointer" onclick="redirectTo('/rule')">
+        <div class="row align-items-center">
+          <div class="col-icon">
+            <div class="icon-big text-center icon-secondary bubble-shadow-small">
+              <i class="flaticon-success"></i>
+            </div>
+          </div>
+          <div class="col col-stats ml-3 ml-sm-0">
+            <div class="numbers">
+              <p class="card-category">Rule</p>
+              <h4 class="card-title">{{ jml_rule }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page-inner">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Pie Chart</div>
+        </div>
+        <div class="card-body">
+          <div class="chart-container">
+            <canvas id="pieChart" style="width: 50%; height: 50%"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block script %}
+<script>
+  function redirectTo(url) {
+    window.location.href = url;
+  }
+</script>
+<script>
+  var stadium1 = '{{ stadium1 }}';
+  var stadium2 = '{{ stadium2 }}';
+  var stadium3 = '{{ stadium3 }}';
+  var stadium4 = '{{ stadium4 }}';
+  var pieChart = document.getElementById('pieChart').getContext('2d');
+  var myPieChart = new Chart(pieChart, {
+    type: 'pie',
+    data: {
+      datasets: [
+        {
+          data: [stadium1, stadium2, stadium3, stadium4],
+          backgroundColor: ['#1d7af3', '#f3545d', '#fdaf4b', '#00a329'],
+          borderWidth: 0,
+        },
+      ],
+      labels: ['Stadium 1', 'Stadium 2', 'Stadium 3', 'Stadium 4'],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        position: 'bottom',
+        labels: {
+          fontColor: 'rgb(154, 154, 154)',
+          fontSize: 11,
+          usePointStyle: true,
+          padding: 20,
+        },
+      },
+      pieceLabel: {
+        render: 'percentage',
+        fontColor: 'white',
+        fontSize: 14,
+      },
+      tooltips: false,
+      layout: {
+        padding: {
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: 20,
+        },
+      },
+    },
+  });
+</script>
+{% endblock %}
